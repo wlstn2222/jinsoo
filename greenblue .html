@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Language Exploration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background: linear-gradient(to right, #32a852, #3f51b5, #000080);
+            color: white;
+            padding: 20px;
+        }
+        .color-spectrum {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+        .color-box {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            cursor: grab;
+        }
+        .question-section {
+            margin: 30px auto;
+            text-align: center;
+        }
+        .language-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin: 20px auto;
+        }
+        .language-box {
+            width: 30%;
+            border: 2px solid #ccc;
+            padding: 20px;
+            text-align: center;
+        }
+        .input-box {
+            margin: 10px 0;
+        }
+        .dropzone {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 100px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        .dropzone:hover {
+            border-color: #32a852;
+        }
+        .result-section {
+            margin-top: 30px;
+        }
+        input, button, select {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .multiselect {
+            width: 60%;
+            height: auto;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Color Language Exploration</h1>
+        <p>Explore the connection between colors and languages</p>
+    </header>
+
+    <main>
+        <section class="color-spectrum" id="colorSpectrum">
+            <!-- Color boxes will be dynamically generated here -->
+        </section>
+
+        <section class="question-section">
+            <h2>1. Where is your country?</h2>
+            <input type="text" id="countryInput" placeholder="Enter your country">
+
+            <h2>2. Which language can you speak? (Select one)</h2>
+            <select id="languageSelect" class="multiselect">
+                <option value="English">English</option>
+                <option value="Korean">Korean (한국어)</option>
+                <option value="Japanese">Japanese (日本語)</option>
+                <option value="Vietnamese">Vietnamese (Tiếng Việt)</option>
+                <option value="Thai">Thai (ภาษาไทย)</option>
+                <option value="Swedish">Swedish (Svenska)</option>
+                <option value="Mongolian">Mongolian (Монгол хэл)</option>
+                <option value="French">French (Français)</option>
+                <option value="Spanish">Spanish (Castellano)</option>
+                <option value="German">German (Deutsch)</option>
+                <option value="Chinese">Chinese (中文)</option>
+                <option value="Arabic">Arabic (العربية)</option>
+                <option value="Hindi">Hindi (हिन्दी)</option>
+                <option value="Portuguese">Portuguese (Português)</option>
+                <option value="Russian">Russian (Русский)</option>
+                <option value="Italian">Italian (Italiano)</option>
+                <option value="Turkish">Turkish (Türkçe)</option>
+                <option value="Dutch">Dutch (Nederlands)</option>
+                <option value="Indonesian">Indonesian (Bahasa Indonesia)</option>
+            </select>
+
+            <h2>3. Write the name of the color and drag and drop colors to classify in your language:</h2>
+
+            <div class="language-container">
+                <!-- Left, Center, Right text input boxes -->
+                <div class="language-box">
+                    <input type="text" class="input-box" placeholder="Write color name (e.g., Green)">
+                    <div class="dropzone" id="dropzone-left" ondrop="handleDrop(event)" ondragover="allowDrop(event)">Drop colors here</div>
+                </div>
+
+                <div class="language-box">
+                    <input type="text" class="input-box" placeholder="Write color name (e.g., Blue)">
+                    <div class="dropzone" id="dropzone-center" ondrop="handleDrop(event)" ondragover="allowDrop(event)">Drop colors here</div>
+                </div>
+
+                <div class="language-box">
+                    <input type="text" class="input-box" placeholder="Write color name (e.g., Yellow)">
+                    <div class="dropzone" id="dropzone-right" ondrop="handleDrop(event)" ondragover="allowDrop(event)">Drop colors here</div>
+                </div>
+            </div>
+
+            <button onclick="submitData()">Submit</button>
+        </section>
+
+        <section class="result-section">
+            <h2>4. Which languages can you speak other language?</h2>
+            <select id="languageSelectOther" class="multiselect">
+                <option value="English">English</option>
+                <option value="Korean">Korean (한국어)</option>
+                <option value="Japanese">Japanese (日本語)</option>
+                <option value="Vietnamese">Vietnamese (Tiếng Việt)</option>
+                <option value="Thai">Thai (ภาษาไทย)</option>
+                <option value="Swedish">Swedish (Svenska)</option>
+                <option value="Mongolian">Mongolian (Монгол хэл)</option>
+                <option value="French">French (Français)</option>
+                <option value="Spanish">Spanish (Castellano)</option>
+                <option value="German">German (Deutsch)</option>
+                <option value="Chinese">Chinese (中文)</option>
+                <option value="Arabic">Arabic (العربية)</option>
+                <option value="Hindi">Hindi (हिन्दी)</option>
+                <option value="Portuguese">Portuguese (Português)</option>
+                <option value="Russian">Russian (Русский)</option>
+                <option value="Italian">Italian (Italiano)</option>
+                <option value="Turkish">Turkish (Türkçe)</option>
+                <option value="Dutch">Dutch (Nederlands)</option>
+                <option value="Indonesian">Indonesian (Bahasa Indonesia)</option>
+            </select>
+
+            <h2>5. Write the name of the color and drag and drop colors to classify in your other language:</h2>
+            <div class="language-container">
+                <div class="language-box">
+                    <input type="text" class="input-box" placeholder="Write color name (e.g., Green)">
+                    <div class="dropzone" id="dropzone-left-other" ondrop="handleDrop(event)" ondragover="allowDrop(event)">Drop colors here</div>
+                </div>
+
+                <div class="language-box">
+                    <input type="text" class="input-box" placeholder="Write color name (e.g., Blue)">
+                    <div class="dropzone" id="dropzone-center-other" ondrop="handleDrop(event)" ondragover="allowDrop(event)">Drop colors here</div>
+                </div>
+
+                <div class="language-box">
+                    <input type="text" class="input-box" placeholder="Write color name (e.g., Yellow)">
+                    <div class="dropzone" id="dropzone-right-other" ondrop="handleDrop(event)" ondragover="allowDrop(event)">Drop colors here</div>
+                </div>
+            </div>
+
+            <h2>6. Which languages can you speak other language?</h2>
+            <select id="languageSelectOther2" class="multiselect">
+                <option value="English">English</option>
+                <option value="Korean">Korean (한국어)</option>
+                <option value="Japanese">Japanese (日本語)</option>
+                <option value="Vietnamese">Vietnamese (Tiếng Việt)</option>
+                <option value="Thai">Thai (ภาษาไทย)</option>
+                <option value="Swedish">Swedish (Svenska)</option>
+                <option value="Mongolian">Mongolian (Монгол хэл)</option>
+                <option value="French">French (Français)</option>
+                <option value="Spanish">Spanish (Castellano)</option>
+                <option value="German">German (Deutsch)</option>
+                <option value="Chinese">Chinese (中文)</option>
+                <option value="Arabic">Arabic (العربية)</option>
+                <option value="Hindi">Hindi (हिन्दी)</option>
+                <option value="Portuguese">Portuguese (Português)</option>
+                <option value="Russian">Russian (Русский)</option>
+                <option value="Italian">Italian (Italiano)</option>
+                <option value="Turkish">Turkish (Türkçe)</option>
+                <option value="Dutch">Dutch (Nederlands)</option>
+                <option value="Indonesian">Indonesian (Bahasa Indonesia)</option>
+            </select>
+
+            <h2>7. Write the name of the color and drag and drop colors to classify in your other language:</h2>
+            <div class="language-container">
+                <div class="language-box">
+                    <input type="text" class="input-box" placeholder="Write color name (e.g., Green)">
+                    <div class="dropzone" id="dropzone-left-other2" ondrop="handleDrop(event)" ondragover="allowDrop(event)">Drop colors here</div>
+                </div>
+
+                <div class="language-box">
+                    <input type="text" class="input-box" placeholder="Write color name (e.g., Blue)">
+                    <div class="dropzone" id="dropzone-center-other2" ondrop="handleDrop(event)" ondragover="allowDrop(event)">Drop colors here</div>
+                </div>
+
+                <div class="language-box">
+                    <input type="text" class="input-box" placeholder="Write color name (e.g., Yellow)">
+                    <div class="dropzone" id="dropzone-right-other2" ondrop="handleDrop(event)" ondragover="allowDrop(event)">Drop colors here</div>
+                </div>
+            </div>
+
+            <button onclick="submitData()">Submit</button>
+        </section>
+
+        <section class="result-section">
+            <h2>4. World Map Visualization</h2>
+            <div id="mapContainer">
+                <p>(A world map visualization will appear here based on input data.)</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2025 Color Language Exploration. All rights reserved.
+    </footer>
+
+    <script>
+        const languages = [
+            "English", "Korean (한국어)", "Japanese (日本語)", "Vietnamese (Tiếng Việt)",
+            "Thai (ภาษาไทย)", "Swedish (Svenska)", "Mongolian (Монгол хэл)", 
+            "French (Français)", "Spanish (Castellano)", "German (Deutsch)", 
+            "Chinese (中文)", "Arabic (العربية)", "Hindi (हिन्दी)", 
+            "Portuguese (Português)", "Russian (Русский)", "Italian (Italiano)", 
+            "Turkish (Türkçe)", "Dutch (Nederlands)", "Indonesian (Bahasa Indonesia)"
+        ];
+
+        function generateSpectrum() {
+            const spectrum = document.getElementById('colorSpectrum');
+            const shades = 50; // Number of shades
+            for (let i = 0; i < shades; i++) {
+                const ratio = i / (shades - 1);
+                const red = Math.round(50 + ratio * (0 - 50));
+                const green = Math.round(168 + ratio * (0 - 168));
+                const blue = Math.round(82 + ratio * (128 - 82));
+
+                const color = `rgb(${red}, ${green}, ${blue})`;
+
+                const colorBox = document.createElement('div');
+                colorBox.className = 'color-box';
+                colorBox.style.backgroundColor = color;
+                colorBox.setAttribute('draggable', 'true');
+                colorBox.setAttribute('data-color', color);
+                colorBox.addEventListener('dragstart', handleDragStart);
+                spectrum.appendChild(colorBox);
+            }
+        }
+
+        function handleDragStart(event) {
+            event.dataTransfer.setData('text/plain', event.target.style.backgroundColor);
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            const color = event.dataTransfer.getData('text/plain');
+            const dropZone = event.target;
+
+            // Prevent dropping into the text input area
+            if (dropZone.classList.contains("input-box")) {
+                return;
+            }
+
+            const colorBox = document.createElement('div');
+            colorBox.className = 'color-box';
+            colorBox.style.backgroundColor = color;
+            dropZone.appendChild(colorBox);
+        }
+
+        function submitData() {
+            alert("Thank you for your submission!");
+        }
+
+        window.onload = () => {
+            generateSpectrum();
+        };
+    </script>
+</body>
+</html>
